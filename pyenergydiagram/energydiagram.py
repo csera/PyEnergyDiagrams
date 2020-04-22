@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jan 23 13:09:19 2017
+Last modified Weds Apr 22 14:00 2020
 
 --- Energy profile diagram---
 This is a simple script to plot energy profile diagram using matplotlib.
@@ -10,8 +11,8 @@ e|1__/  \__/5   \
 r|  3\__/       6\__
 g|
 y|
-@author: Giacomo Marchioro giacomomarchioro@outlook.com
-
+@author: csera
+    Based on source by Giacomo Marchioro giacomomarchioro@outlook.com
 """
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -28,6 +29,7 @@ class ED:
         self.offset_ratio = 0.02
         self.color_bottom_text = 'blue'
         self.aspect = aspect
+        self.ylabel = ''
         # data
         self.pos_number = 0
         self.energies = []
@@ -82,7 +84,7 @@ class ED:
             position = self.pos_number
         if top_text == 'Energy':
             top_text = energy
-
+        
         link = []
         self.colors.append(color)
         self.energies.append(energy)
@@ -171,8 +173,17 @@ class ED:
         y = self.energies[level_id]
         self.electons_boxes.append((x, y, boxes, electrons, side, spacing_f))
 
-
-    def plot(self, show_IDs=False):
+    def set_yName(self,label):
+        '''
+        Sets object's ylabel String
+        
+        Parameters
+        ----------
+        label : String
+        '''
+        self.ylabel = label
+    
+    def plot(self, show_IDs):
         '''
         Method of ED class
         Plot the energy diagram. Use show_IDs=True for showing the IDs of the
@@ -194,16 +205,17 @@ class ED:
         fig (plt.figure) and ax (fig.add_subplot())
 
         '''
+        
         fig = plt.figure()
         ax = fig.add_subplot(111, aspect=self.aspect)
-        ax.set_ylabel("Energy / $kcal$ $mol^{-1}$")
+        ax.set_ylabel(self.ylabel)
         ax.axes.get_xaxis().set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.spines['bottom'].set_visible(False)
-
+        
         self.__auto_adjust()
-
+        
         data = zip(self.energies,  # 0
                    self.positions,  # 1
                    self.bottom_texts,  # 2
@@ -211,10 +223,14 @@ class ED:
                    self.colors,  # 4
                    self.left_texts,  # 5
                    self.right_texts)  # 6
-
+        
         for level in data:
-            start = level[1]*(self.dimension+self.space)
+            start = level[1]*(self.dimension+self.space) # Start x position
+            
+            # Plot the state's energy level line
             ax.hlines(level[0], start, start + self.dimension, color=level[4])
+            
+            # Label the energy level line
             ax.text(start+self.dimension/2.,  # X
                     level[0]+self.offset,  # Y
                     level[3],  # self.top_texts
@@ -223,14 +239,14 @@ class ED:
 
             ax.text(start + self.dimension,  # X
                     level[0],  # Y
-                    level[5],  # self.bottom_text
+                    level[5],  # self.left_texts
                     horizontalalignment='left',
                     verticalalignment='center',
                     color=self.color_bottom_text)
 
             ax.text(start,  # X
                     level[0],  # Y
-                    level[6],  # self.bottom_text
+                    level[6],  # self.right_texts
                     horizontalalignment='right',
                     verticalalignment='center',
                     color=self.color_bottom_text)
@@ -241,6 +257,7 @@ class ED:
                     horizontalalignment='center',
                     verticalalignment='top',
                     color=self.color_bottom_text)
+            
         if show_IDs:
             # for showing the ID allowing the user to identify the level
             for ind, level in enumerate(data):
