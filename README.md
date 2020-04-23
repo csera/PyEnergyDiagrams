@@ -47,13 +47,14 @@ diagram.add_link(3,5)
 diagram.add_link(0,6)
 ```
 
-For plotting the final result:
+Plot the final result:
 ```python
 diagram.plot()
 ```
-The results is displayed above.
+The results are displayed above.
+
 ## Trouble shooting and fine tuning
-Most of the times there could be a problem of test padding. There are some parameters that can be changed in this way.
+Insufficient energy level padding can cause display issues. You can adjust this as below:
 ```python
 diagram.offset = 10
 ```
