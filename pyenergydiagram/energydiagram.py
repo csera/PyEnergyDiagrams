@@ -183,7 +183,7 @@ class ED:
         '''
         self.ylabel = label
     
-    def plot(self, show_IDs):
+    def plot(self, show_IDs=False):
         '''
         Method of ED class
         Plot the energy diagram. Use show_IDs=True for showing the IDs of the
@@ -198,7 +198,7 @@ class ED:
         Parameters
         ----------
         show_IDs : bool
-            show the IDs of the energy levels
+            show the IDs of the energy levels; is False by default
 
         Returns
         -------
@@ -263,7 +263,7 @@ class ED:
             for ind, level in enumerate(data):
                 start = level[1]*(self.dimension+self.space)
                 ax.text(start, level[0]+self.offset, str(ind),
-                        horizontalalignment='right', color='red')
+                        horizontalalignment='right', color='red')    
 
         for idx, arrow in enumerate(self.arrows):
             # by Kalyan Jyoti Kalita: put arrows between to levels
