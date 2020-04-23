@@ -82,6 +82,7 @@ class ED:
             self.pos_number += 1
         elif position == 'last':
             position = self.pos_number
+            
         if top_text == 'Energy':
             top_text = energy
         
@@ -260,10 +261,14 @@ class ED:
             
         if show_IDs:
             # for showing the ID allowing the user to identify the level
-            for ind, level in enumerate(data):
-                start = level[1]*(self.dimension+self.space)
-                ax.text(start, level[0]+self.offset, str(ind),
-                        horizontalalignment='right', color='red')    
+            # csera: This wasn't working with the 'data' zip, so I rewrote this to work directly
+            # with the self.[props]
+            
+            for l in range(len(self.energies)):
+                objNum = l+1
+                start = self.positions[l]*(self.dimension+self.space)
+                ax.text(start, self.energies[l]+self.offset, self.positions[l],
+                    horizontalalignment='right', color='red')
 
         for idx, arrow in enumerate(self.arrows):
             # by Kalyan Jyoti Kalita: put arrows between to levels
