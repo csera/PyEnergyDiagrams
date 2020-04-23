@@ -1,5 +1,6 @@
 # PyEnergyDiagrams
 This is a simple script to plot energy profile diagrams using Python and matplotlib.
+Fork of giocomomarchioro's original version (commit c9434060cd3c2e0f3455e3131464fa93daff8c14)
 
 ![alt tag](https://github.com/giacomomarchioro/PyEnergyDiagrams/blob/master/md_images/Final.png)
 ## Requirments
@@ -14,16 +15,24 @@ from energydiagram import ED
 diagram = ED()
 diagram.add_level(0,'Separated Reactants')
 diagram.add_level(-5.4,'mlC1')
-diagram.add_level(-15.6,'mlC2','last',) #Using 'last' it will be together with the previous level
+diagram.add_level(-15.6,'mlC2','last',) # 'last' places this in the same col as the immediately preceding level
 diagram.add_level(28.5,'mTS1',color='g')
 diagram.add_level(-9.7,'mCARB1')
 diagram.add_level(-19.8,'mCARB2','last')
 diagram.add_level(20,'mCARBX','last')
 ```
-Show the IDs (red numbers) for understanding how to link the levels:
+
+Set your y axis label:
 
 ```python
-diagram.plot(show_IDs=True)
+diagram.set_yName("Energy \ $kcal mol^(-1)$")
+```
+Note that you can pass LaTeX expressions in with the label string.
+
+Show the IDs (red numbers) to understand how to link the levels:
+
+```python
+diagram.plot(show_IDs=True) #show_IDs is optional and is False by default
 ```
 ![alt tag](https://github.com/giacomomarchioro/PyEnergyDiagrams/blob/master/With_IDs.png)
 
@@ -37,6 +46,7 @@ diagram.add_link(3,4)
 diagram.add_link(3,5)
 diagram.add_link(0,6)
 ```
+
 For plotting the final result:
 ```python
 diagram.plot()
@@ -49,7 +59,7 @@ diagram.offset = 10
 ```
 ![alt tag](https://github.com/giacomomarchioro/PyEnergyDiagrams/blob/master/md_images/Explained.jpg)
 
-If you dont' see anything try:
+If you don't see anything try:
 ```python
 import matplotlib.pyplot as plt
 plt.show()
